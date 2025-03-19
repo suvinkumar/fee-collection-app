@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortnightly Fee Collection</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
+        form { max-width: 400px; margin: auto; text-align: left; }
+        label, input, select { display: block; margin-bottom: 10px; width: 100%; }
+        button { padding: 10px; background-color: blue; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>Fortnightly Meeting - Fee Collection</h2>
+
+    <form id="feeForm">
+        <label>Name:</label>
+        <input type="text" id="name" required>
+
+        <label>Payment Method:</label>
+        <input type="radio" name="paymentMethod" value="Cash" required> Cash
+        <input type="radio" name="paymentMethod" value="UPI" required> UPI
+        <input type="radio" name="paymentMethod" value="Other" required> Other
+
+        <label>Substitute Name (if sending a substitute):</label>
+        <input type="text" id="substituteName">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="responseMessage"></p>
+
+    <script>
+        document.getElementById("feeForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var name = document.getElementById("name").value;
+            var paid = document.querySelector('input[name="paid"]:checked') ? "Yes" : "No";
+            var paymentMethod = document.querySelector('input[name="paymentMethod"]:checked') ? document.querySelector('input[name="paymentMethod"]:checked').value : "";
+            var substituteName = document.getElementById("substituteName").value;
+
+            var data = {
+                name: name,
+                paid: paid,
+                paymentMethod: paymentMethod,
+                substituteName: substituteName
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbwCyOlHacfLGZyh1IZ63dYWFos_FAtT8P0CzLkDN5hE_PLnyirUoFP0v2k_yjQvZfy8/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                document.getElementById("responseMessage").innerText = "Submission successful!";
+                document.getElementById("feeForm").reset();
+            })
+            .catch(error => {
+                document.getElementById("responseMessage").innerText = "Error submitting data.";
+            });
+        });
+    </script>
+
+</body>
+</html>
