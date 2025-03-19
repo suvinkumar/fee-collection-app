@@ -5,32 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortnightly Fee Collection</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 20px; }
-        form { max-width: 400px; margin: auto; text-align: left; }
-        label, input, select { display: block; margin-bottom: 10px; width: 100%; }
-        button { padding: 10px; background-color: blue; color: white; border: none; cursor: pointer; }
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            text-align: center;
+            margin: 20px;
+        }
+        .container {
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            font-size: 24px;
+        }
+        h3 {
+            color: #0056b3;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        form {
+            text-align: left;
+        }
+        label {
+            font-weight: bold;
+            color: #444;
+        }
+        input[type="text"], input[type="radio"] {
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #003d82;
+        }
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+        }
+        .success-message {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
 
-    <h2>Fortnightly Meeting - Fee Collection</h2>
+    <div class="container">
+        <h2>BBB Sir M V Chapter, Mysore</h2>
+        <h3>Fortnightly Meeting - Fee Collection</h3>
 
-    <form id="feeForm">
-        <label>Name:</label>
-        <input type="text" id="name" required>
+        <form id="feeForm">
+            <label>Name:</label>
+            <input type="text" id="name" required>
 
-        <label>Payment Method:</label>
-        <input type="radio" name="paymentMethod" value="Cash" required> Cash
-        <input type="radio" name="paymentMethod" value="UPI" required> UPI
-        <input type="radio" name="paymentMethod" value="Other" required> Other
+            <label>Have you paid?</label>
+            <div class="radio-group">
+                <input type="radio" name="paid" value="Yes" required> Yes
+            </div>
 
-        <label>Substitute Name (if sending a substitute):</label>
-        <input type="text" id="substituteName">
+            <label>Payment Method:</label>
+            <div class="radio-group">
+                <input type="radio" name="paymentMethod" value="Cash" required> Cash
+                <input type="radio" name="paymentMethod" value="UPI" required> UPI
+                <input type="radio" name="paymentMethod" value="Other" required> Other
+            </div>
 
-        <button type="submit">Submit</button>
-    </form>
+            <label>Substitute Name (if sending a substitute):</label>
+            <input type="text" id="substituteName">
 
-    <p id="responseMessage"></p>
+            <button type="submit">Submit</button>
+        </form>
+
+        <p id="responseMessage"></p>
+    </div>
 
     <script>
         document.getElementById("feeForm").addEventListener("submit", function(event) {
@@ -56,10 +130,12 @@
             })
             .then(response => {
                 document.getElementById("responseMessage").innerText = "Submission successful!";
+                document.getElementById("responseMessage").className = "success-message";
                 document.getElementById("feeForm").reset();
             })
             .catch(error => {
                 document.getElementById("responseMessage").innerText = "Error submitting data.";
+                document.getElementById("responseMessage").className = "error-message";
             });
         });
     </script>
